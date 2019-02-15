@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
         res.status(code).json({success: false, message})
     })
 });
+
 // INSERT REQUESTS
 router.post('/', (req, res) => {
     const { name, description } = req.body;
@@ -29,6 +30,44 @@ router.post('/', (req, res) => {
       .then(user => {res.status(201).json(user);})
       .catch(() => res.status(500).json({success: false, message: "There was an error while saving the user to the database."})
 )});
+// UPDATE REQUESTS
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { description, name } = req.body;
+    console.log(req.body)
+    const project = { description, name };
+    if (!description || !name) {
+        return res.status(400).json({success: false, message: "Must provide content for the project"});
+    }
+    db.update(id, project)
+      .then(response => {
+        if(response == 0) {
+            return res.status(404).json({success: false, message: "project with ID does not exist"});
+        }
+        else{
+            res.status(200).json({success: true, project})
+        }
+      })
+      .catch(message => {
+        return res.status(400).json({success: false, message: message});
+      });
+});
+// DELETE REQUEST
+router.delete('/:id', (req, res) => {
+    const {id} = req.params;
+    db
+    .remove(id)
+    .then(project => { 
+        if(project){
+        res.status(204).end();
+      } else{
+        res.status(404).json({success:false, message: 'The project with that ID does not exist.'});
+      }})
+      .catch(({}) =>{
+        res.status(500).json({success:false, message: 'The projects information could not be retrieved.'});
+    })
+});
+
 
 
 module.exports = router
