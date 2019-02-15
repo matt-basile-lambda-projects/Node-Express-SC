@@ -16,7 +16,7 @@ class App extends Component {
     fetch('/');
   }
   componentDidMount(){
-    this.connecToServer
+    this.connecToServer()
     this.getProjects()
   }
   getProjects = () =>{

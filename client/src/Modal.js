@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { Button, Header, Modal } from 'semantic-ui-react'
 
 
 const ModalExampleTopAligned = (props) => (
@@ -9,7 +9,7 @@ const ModalExampleTopAligned = (props) => (
       <Modal.Description>
         <Header>Actions</Header>
         {props.actions.map(action =>{
-          return <div>
+          return <div key={action.id}>
             <p>{action.description}</p>
             <p>{action.notes}</p>
           </div>
