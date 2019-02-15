@@ -4,11 +4,19 @@ import './App.css';
 import Modal from './Modal'
 
 class App extends Component {
-  state={
-    projects:[],
-    selectedActions: []
+  constructor(props){
+    super(props)
+    this.state={
+      projects:[],
+      selectedActions: []
+    }
+    this.connecToServer = this.connecToServer.bind(this);
+  }
+  connecToServer() {
+    fetch('/');
   }
   componentDidMount(){
+    this.connecToServer
     this.getProjects()
   }
   getProjects = () =>{

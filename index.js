@@ -7,6 +7,8 @@ const cors = require('cors');
 const projects = require('./data/helpers/projectModel.js')
 const projectsRouter = require('./Routes/ProjectsRouter');
 const actionsRouter = require('./Routes/ActionsRouter');
+const path = require('path');
+
 const server = express();
 
 server.use(express.json());
@@ -35,14 +37,25 @@ server.get('/projects/actions/:projectId', (req, res) => {
       });
   });
 
-  const port = process.env.PORT || 8000;
-  // Home Route Running
-  server.get('/', (req, res) => {
-      res.send('Hello from EXPRESS LAB')
-  });
-  
-  server.listen(port, () => {
-      console.log(`\n*** Server Running on http://localhost:${port} ***\n`);
-    });
+const port = process.env.PORT || 8000;
 
+//Static file declaration
+server.use(express.static(path.join(__dirname, 'client/build')));
 
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  server.use(express.static(path.join(__dirname, 'client/build')));
+  //
+  server.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+}
+//build mode
+server.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/public/index.html'));
+})
+
+//start server
+server.listen(port, (req, res) => {
+  console.log( `server listening on port: ${port}`);
+})
