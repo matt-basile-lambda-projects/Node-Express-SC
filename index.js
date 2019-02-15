@@ -1,13 +1,19 @@
 // code away!
+require('dotenv').config();
+
 const express = require('express')
+const cors = require('cors');
+
 const projects = require('./data/helpers/projectModel.js')
 const projectsRouter = require('./Routes/ProjectsRouter');
 const actionsRouter = require('./Routes/ActionsRouter');
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 server.use('/projects', projectsRouter)
 server.use('/actions', actionsRouter)
+
 
 // Home Route Running
 server.get('/', (req, res) => {
@@ -28,6 +34,15 @@ server.get('/projects/actions/:projectId', (req, res) => {
         return errorHelper(500, 'Database Error', res);
       });
   });
-  
 
-server.listen(8000, () => console.log('API running on port 8000'));
+  const port = process.env.PORT || 8000;
+  // Home Route Running
+  server.get('/', (req, res) => {
+      res.send('Hello from EXPRESS LAB')
+  });
+  
+  server.listen(port, () => {
+      console.log(`\n*** Server Running on http://localhost:${port} ***\n`);
+    });
+
+

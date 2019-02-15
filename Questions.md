@@ -1,6 +1,6 @@
 
 - Mention two parts of Express that you learned about this week.
-    1. It's like React for a Backend, meaning it sits onto of our Node.js and gives us access to an unopinionated library to build our servers up 
+    1. It's like React for a Backend, meaning it sits on top of our Node.js and gives us access to an unopinionated library to build our servers up 
     2. It provides us Middleware and Routes allowing us to build "subservers" within our server. 
 
 - Describe Middleware?
