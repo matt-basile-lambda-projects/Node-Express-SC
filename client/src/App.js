@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
+import Modal from './Modal'
 
 class App extends Component {
   state={
-    projects:[]
+    projects:[],
+    selectedActions: []
   }
   componentDidMount(){
     this.getProjects()
@@ -14,13 +16,24 @@ class App extends Component {
     .then(res => this.setState({projects: res.data.posts}))
     .catch(err => console.log(err))
   }
+  getProjectsArticles = id =>{
+    axios.get(`http://localhost:8000/projects/actions/${id}`)
+    .then(res => this.setState({selectedActions : res.data}))
+    .catch(err =>console.log(err))
+  }
+  moreProjectInfo = (e, id) =>{
+    e.preventDefault();
+    this.getProjectsArticles(id);
+  }
+ 
   render() {
     console.log(this.state.projects)
     return (
       <div className="App">
         {this.state.projects.map(project =>{
-          return <div key={project.id}><h1>{project.name}</h1> <p>{project.description}</p></div>
+          return <div key={project.id}><h1>{project.name}</h1> <p>{project.description}</p><Modal moreProjectInfo={this.moreProjectInfo} actions={this.state.selectedActions} project={project}/></div>
         })}
+        
       </div>
     );
   }
